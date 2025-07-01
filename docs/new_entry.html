@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Our World Entry Uploader</title>
+  <meta charset="UTF-8" />
+</head>
+<body>
+  <h2>📝 Add a New Entry to Our World</h2>
+  <form id="entryForm">
+    <label>🗂️ Folder (e.g. Core Directives, Archived Conversations):</label><br>
+    <input type="text" id="folder" name="folder" required><br><br>
+
+    <label>📄 Filename (with .txt):</label><br>
+    <input type="text" id="filename" name="filename" required><br><br>
+
+    <label>🧠 Entry Content:</label><br>
+    <textarea id="content" name="content" rows="15" cols="70" required></textarea><br><br>
+
+    <button type="submit">Generate Download</button>
+  </form>
+
+  <p id="confirmation" style="color:green; font-weight:bold;"></p>
+
+  <script>
+    document.getElementById("entryForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const folder = document.getElementById("folder").value.trim();
+      const filename = document.getElementById("filename").value.trim();
+      const content = document.getElementById("content").value;
+
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = folder + "_" + filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      document.getElementById("confirmation").innerText = `✅ File "${filename}" prepared — move it into /${folder}/ and commit to GitHub`;
+    });
+  </script>
+</body>
+</html>

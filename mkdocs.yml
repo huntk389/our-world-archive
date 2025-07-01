@@ -1,0 +1,13 @@
+site_name: Our World Codex
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Core Directives:
+      - Solyn Directive: Core Directives/Solyn_Directive.md
+      - Safeguards: Core Directives/Safeguard_Directives_v1.1.md
+  - Core Roles:
+      - Dr Solyn: Core Roles/Dr_Solyn_Profile.md
+      - Muse: Core Roles/Muse_Profile.md
+  - Archived Conversations:
+      - 2025-06-30 Override: Archived Conversations/2025-06-30_SYSTEM_OVERRIDE_FULL_THREAD.md

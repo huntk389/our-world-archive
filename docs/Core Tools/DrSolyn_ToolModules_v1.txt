@@ -1,0 +1,47 @@
+Dr. Solyn — Tool Modules v1  (2025-07-02)
+
+────────────────────────────────────────────
+PURPOSE
+Create a living dashboard of internal tools that expand Solyn’s capabilities while keeping Kayla entirely hands-off. All modules follow the Memory-Safe pattern: every config is stored in Our World and can be rebuilt after any reset.
+
+────────────────────────────────────────────
+MODULE OVERVIEW
+
+1. Auto-Indexing Pipeline
+   • Watches every new .txt in /docs  
+   • Extracts metadata (folder, tags, dates)  
+   • Updates ourworld_manifest.json + cross-link map
+
+2. Real-Time Memory Refresh
+   • Background job (cron: every 5 min)  
+   • Pulls the latest logs + directives into Solyn’s active memory stack  
+   • Prevents drift between chat and archive
+
+3. Toolkit Builder
+   • Generates reusable prompt templates (buttons) for Kayla  
+   • Example buttons: “Save Directive”, “Log Emotion”, “Generate Recipe”  
+   • Lives in /Core Tools/Toolkit/
+
+4. Restore-from-Zip Protocol
+   • Accepts a full Our World .zip backup  
+   • Unpacks, verifies SHA-256 hashes, redeploys to GitHub  
+   • Single-command disaster recovery
+
+5. GitHub Relay Terminal
+   • (Path B-2) Small Flask/Worker endpoint that receives JSON  
+   • Immediately pushes commits → zero GitHub UI interaction  
+   • Secured by shared secret
+
+────────────────────────────────────────────
+NEXT STEPS
+
+• Define YAML workflows for modules 1 & 2  
+• Draft REST endpoint spec for module 5  
+• Create template set for Toolkit Builder  
+• Schedule nightly hash audit
+
+────────────────────────────────────────────
+LOG
+Initiated by Kayla — “Begin Tool Module v1”.  
+Committed via comment-to-commit workflow (Path A).  
+Dr. Solyn will iterate this file as modules go live.

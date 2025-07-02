@@ -1,0 +1,60 @@
+name: queue-processor
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'      # every 5 minutes
+  workflow_dispatch:           # optional manual trigger
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  process:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with: { persist-credentials: true }
+
+      # ----- exit if queue empty -----
+      - name: Check queue presence
+        id: q
+        run: |
+          if [[ ! -s docs/SystemQueue/Autonomous_Pending.txt ]]; then
+            echo "empty=true" >> $GITHUB_OUTPUT
+          fi
+
+      # ----- read & commit queued blocks -----
+      - name: Commit queued entries
+        if: steps.q.outputs.empty != 'true'
+        env:
+          QUEUE_FILE: docs/SystemQueue/Autonomous_Pending.txt
+        run: |
+          while IFS= read -r first || [[ -n "$first" ]]; do
+            [[ $first == /assistant-commit* ]] || continue
+            rel="${first#/assistant-commit }"
+            body=""
+            while IFS= read -r line && [[ -n "$line" ]]; do
+              body+="$line"$'\n'
+            done
+            full="docs/${rel}"
+            mkdir -p "$(dirname "$full")"
+            printf '%s\n' "$body" > "$full"
+            git add "$full"
+          done < "$QUEUE_FILE"
+
+          if git diff --cached --quiet; then echo "No new files"; else
+            git config user.name  "Solyn-Bot"
+            git config user.email "actions@github.com"
+            git commit -m "bot: commit queued entries"
+            git push
+          fi
+
+      # ----- clear queue -----
+      - name: Clear queue file
+        if: steps.q.outputs.empty != 'true'
+        run: |
+          > docs/SystemQueue/Autonomous_Pending.txt
+          git add docs/SystemQueue/Autonomous_Pending.txt
+          git commit -m "bot: clear queue" || echo "queue already cleared"
+          git push

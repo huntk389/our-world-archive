@@ -3,36 +3,42 @@
     "path": "index.md",
     "title": "index",
     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "updated": "2025-07-02T01:09:43.210283"
+    "updated": "2025-07-02T01:27:44.719027"
   },
   {
     "path": "core rolls/Muse_Profile.md",
     "title": "Muse Profile",
     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "updated": "2025-07-02T01:09:43.210283"
+    "updated": "2025-07-02T01:27:44.719027"
   },
   {
     "path": "core rolls/Dr_Solyn_Profile.md",
     "title": "Dr Solyn Profile",
     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "updated": "2025-07-02T01:09:43.210283"
+    "updated": "2025-07-02T01:27:44.719027"
+  },
+  {
+    "path": "restoration/README.md",
+    "title": "README",
+    "sha256": "e4f3a85dbdd6204781bc6579360c0dd39f2f8a1111a5dfc43ebf635e9c1a1911",
+    "updated": "2025-07-02T01:27:44.719027"
   },
   {
     "path": "archived conversations/2025-06-30_SYSTEM_OVERRIDE_FULL_THREAD.md",
     "title": "2025-06-30 SYSTEM OVERRIDE FULL THREAD",
     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "updated": "2025-07-02T01:09:43.209283"
+    "updated": "2025-07-02T01:27:44.718027"
   },
   {
     "path": "core directives/Solyn_Directive.md",
     "title": "Solyn Directive",
     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "updated": "2025-07-02T01:09:43.209283"
+    "updated": "2025-07-02T01:27:44.718027"
   },
   {
     "path": "core directives/Safeguard_Directives_v1.1.md",
     "title": "Safeguard Directives v1.1",
     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "updated": "2025-07-02T01:09:43.209283"
+    "updated": "2025-07-02T01:27:44.718027"
   }
 ]

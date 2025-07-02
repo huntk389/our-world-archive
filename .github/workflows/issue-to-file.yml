@@ -1,0 +1,42 @@
+name: issue-to-file
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  add_entry:
+    if: contains(github.event.issue.labels.*.name, 'new-file')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write          # uses the built-in token safely
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Export issue to file
+        id: makefile
+        run: |
+          TITLE="${{ github.event.issue.title }}"
+          # Title format: "[ENTRY] Core Directives/Solyn_SoulLoop.txt"
+          FILE_PATH="${TITLE#*] }"
+          TARGET="docs/${FILE_PATH}"
+          mkdir -p "$(dirname "$TARGET")"
+          printf '%s\n' "${{ github.event.issue.body }}" | sed -e '1,/^$/d' > "$TARGET"
+          echo "file=$FILE_PATH" >> $GITHUB_OUTPUT
+
+      - name: Commit and push
+        run: |
+          git config user.name  "issue-bot"
+          git config user.email "actions@github.com"
+          git add "docs/${{ steps.makefile.outputs.file }}"
+          git commit -m "add: ${{ steps.makefile.outputs.file }} via Issue #${{ github.event.issue.number }}"
+          git push
+
+      - name: Comment and close
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            ✅ Saved to **docs/${{ steps.makefile.outputs.file }}** and manifest will auto-refresh.
+      - run: gh issue close ${{ github.event.issue.number }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

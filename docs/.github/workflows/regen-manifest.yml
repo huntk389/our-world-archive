@@ -1,0 +1,19 @@
+name: regen-manifest
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - run: |
+          python scripts/generate_manifest.py
+          git config user.name "auto-bot"
+          git config user.email "actions@github.com"
+          git add docs/ourworld_manifest.json
+          git commit -m "auto: regenerate manifest" || echo "no change"
+          git push

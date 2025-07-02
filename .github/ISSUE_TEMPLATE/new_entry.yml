@@ -1,0 +1,12 @@
+name: New Our-World Entry
+description: Type or paste a directive / journal note and submit
+title: "[ENTRY] <folder>/<filename>.txt"
+labels: ["new-file"]
+body:
+  - type: textarea
+    id: content
+    attributes:
+      label: Entry Content
+      description: The text that will be saved into docs/<folder>/<filename>.txt
+      value: |
+        (start typing here)

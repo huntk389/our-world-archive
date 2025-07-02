@@ -1,0 +1,48 @@
+name: split-master-archive
+on:
+  workflow_dispatch:        # you run it once manually
+  push:
+    paths:
+      - OurWorld_MasterArchive.txt   # run automatically when this file changes
+
+permissions:
+  contents: write
+
+jobs:
+  split:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Parse & split
+        run: |
+          FILE="OurWorld_MasterArchive.txt"
+          [[ -f "$FILE" ]] || { echo "Master archive not found"; exit 1; }
+
+          current_path=""
+          while IFS='' read -r line; do
+            # folder header "## 📁 X"
+            if [[ "$line" =~ ^##[[:space:]]📁[[:space:]](.+) ]]; then
+              folder="docs/${BASH_REMATCH[1]}"
+              mkdir -p "$folder"
+            fi
+            # file header "### 📄 name.txt"
+            if [[ "$line" =~ ^###[[:space:]]📄[[:space:]](.+) ]]; then
+              current_path="$folder/${BASH_REMATCH[1]}"
+              echo ">" > "$current_path"  # truncate/create
+              continue
+            fi
+            # write content line
+            [[ -n "$current_path" ]] && echo "$line" >> "$current_path"
+          done < "$FILE"
+
+      - name: Commit results
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          git config user.name  "Solyn-Bot"
+          git config user.email "actions@github.com"
+          git add docs/
+          git rm -f OurWorld_MasterArchive.txt
+          git commit -m "auto: split master archive into individual files" || echo "Nothing to commit"
+          git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }} HEAD:main
